@@ -1,0 +1,36 @@
+model:
+  name: 'pvt'
+  pretrained: True
+
+data:
+  type: 'image'
+  sources: ['prai']
+  targets: ['prai', 'prai']
+  height: 224
+  width: 224
+  combineall: False
+#  transforms: ['random_flip', 'color_jitter']
+  save_dir: 'log/pvt_market1501_softmax_cosinelr'
+
+loss:
+  name: 'softmax'
+#  softmax:
+#    label_smooth: False
+
+train:
+  optim: 'adam'
+  optim_center: 'adam'
+  lr: 0.00015
+  max_epoch: 150
+  batch_size: 128
+  fixbase_epoch: 10
+  lr_scheduler: 'cosine'
+  open_layers: ['head']
+
+test:
+  batch_size: 128
+  dist_metric: 'cosine'
+  normalize_feature: False
+  evaluate: False
+  eval_freq: -1
+  rerank: False

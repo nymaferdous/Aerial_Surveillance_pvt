@@ -1,0 +1,37 @@
+model:
+  name: 'vit'
+  pretrained: True
+
+data:
+  type: 'image'
+  sources: ['prai']
+  targets: ['prai']
+  height: 224
+  width: 224
+  combineall: False
+  transforms: ['random_flip', 'color_jitter']
+  save_dir: 'log/swin_market1501_softmax_cosinelr'
+
+loss:
+  name: 'softmax'
+  softmax:
+    label_smooth: False
+
+train:
+  optim: 'radam'
+  lr: 0.008
+  max_epoch: 10
+  batch_size: 4
+#  WARMUP_METHOD: 'linear'
+#  WEIGHT_DECAY:  1e-4
+  fixbase_epoch: 10
+  open_layers: ['classifier']
+  lr_scheduler: 'cosine'
+
+test:
+  batch_size: 4
+  dist_metric: 'cosine'
+  normalize_feature: False
+  evaluate: False
+  eval_freq: -1
+  rerank: False
